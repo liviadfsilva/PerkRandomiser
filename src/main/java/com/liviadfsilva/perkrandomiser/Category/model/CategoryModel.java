@@ -1,4 +1,4 @@
-package com.liviadfsilva.perkrandomiser.SurvivorPerkCategory.model;
+package com.liviadfsilva.perkrandomiser.Category.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,8 +16,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "survivor_perk_category")
-public class SurvivorPerkCategoryModel {
+@Table(name = "categories")
+public class CategoryModel {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
