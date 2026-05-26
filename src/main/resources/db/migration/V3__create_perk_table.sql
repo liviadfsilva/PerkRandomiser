@@ -1,0 +1,7 @@
+CREATE TYPE perk_role AS ENUM ('KILLER', 'SURVIVOR');
+
+CREATE TABLE perks (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL,
+    role perk_role NOT NULL
+);
