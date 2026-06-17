@@ -16,7 +16,7 @@ public class PerkService {
         this.repository = repository;
     }
 
-    public List<Perk> getAllTasks() {
+    public List<Perk> getAllPerks() {
         return repository.findAll();
     }
 
@@ -35,7 +35,7 @@ public class PerkService {
         perk.setRole(perkDetails.getRole());
         return repository.save(perk);
     }
-    
+
     public void deletePerk(Long id) {
         repository.deleteById(id);
     }
