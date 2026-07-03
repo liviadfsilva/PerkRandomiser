@@ -1,0 +1,5 @@
+ALTER TABLE perks
+ALTER COLUMN role TYPE VARCHAR(20)
+USING role::text;
+
+DROP TYPE perk_role;
