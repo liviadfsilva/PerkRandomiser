@@ -21,6 +21,8 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
+    // #TO-DO: add email
+
     @Column(name = "password_hash", nullable = false)
     private String password;
 }

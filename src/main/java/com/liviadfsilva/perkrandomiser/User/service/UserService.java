@@ -40,11 +40,14 @@ public class UserService {
         return repository.save(user);
     }
 
+    // #TO-DO: add email
     public User updateUser(Long id, UserRequest dto) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        user.setUsername(dto.getUsername());
+        if (dto.getUsername() != null && !dto.getUsername().isBlank()) {
+            user.setUsername(dto.getUsername());
+        }
 
         String newPassword = dto.getPassword();
         if (newPassword != null && !newPassword.isEmpty()) {
