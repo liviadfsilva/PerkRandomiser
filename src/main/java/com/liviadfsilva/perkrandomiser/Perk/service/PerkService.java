@@ -1,42 +1,73 @@
 package com.liviadfsilva.perkrandomiser.Perk.service;
 
+import com.liviadfsilva.perkrandomiser.Category.model.Category;
+import com.liviadfsilva.perkrandomiser.Category.repository.CategoryRepository;
+import com.liviadfsilva.perkrandomiser.Perk.dto.PerkRequest;
 import com.liviadfsilva.perkrandomiser.Perk.model.Perk;
 import com.liviadfsilva.perkrandomiser.Perk.repository.PerkRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class PerkService {
 
-    private final PerkRepository repository;
+    private final PerkRepository perkRepository;
+    private final CategoryRepository categoryRepository;
 
-    public PerkService(PerkRepository repository) {
-        this.repository = repository;
+    public PerkService(PerkRepository perkRepository, CategoryRepository categoryRepository) {
+        this.perkRepository = perkRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public List<Perk> getAllPerks() {
-        return repository.findAll();
+        return perkRepository.findAll();
     }
 
     public Optional<Perk> getPerkById(Long id) {
-        return repository.findById(id);
+        return perkRepository.findById(id);
     }
 
-    public Perk createTask(Perk perk) {
-        return repository.save(perk);
+    public Perk createPerk(PerkRequest request) {
+        Set<Category> categories = new HashSet<>(
+                categoryRepository.findAllById(request.getCategoryIds()));
+
+        Perk perk = new Perk();
+
+        // #TO-DO: if name already exists, send warning.
+
+        perk.setName(request.getName());
+        perk.setRole(request.getRole());
+        perk.setCategories(categories);
+
+        return perkRepository.save(perk);
     }
 
-    public Perk updatePerk(Long id, Perk perkDetails){
-        Perk perk = repository.findById(id)
+    public Perk updatePerk(Long id, PerkRequest request){
+        Perk perk = perkRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Perk not found."));
-        perk.setName(perkDetails.getName());
-        perk.setRole(perkDetails.getRole());
-        return repository.save(perk);
+
+        if (request.getName() != null) {
+            perk.setName(request.getName());
+        }
+
+        if (request.getRole() != null) {
+            perk.setRole(request.getRole());
+        }
+
+        if (request.getCategoryIds() != null) {
+            Set<Category> categories = new HashSet<>(
+                    categoryRepository.findAllById(request.getCategoryIds()));
+            perk.setCategories(categories);
+        }
+
+        return perkRepository.save(perk);
     }
 
     public void deletePerk(Long id) {
-        repository.deleteById(id);
+        perkRepository.deleteById(id);
     }
 }

@@ -1,10 +1,14 @@
 package com.liviadfsilva.perkrandomiser.Perk.model;
 
+import com.liviadfsilva.perkrandomiser.Category.model.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,4 +28,12 @@ public class Perk {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @ManyToMany
+    @JoinTable(
+            name = "perk_categories",
+            joinColumns = @JoinColumn(name = "perk_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories = new HashSet<>();
 }

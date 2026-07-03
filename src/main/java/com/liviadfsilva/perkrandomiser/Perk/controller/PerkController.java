@@ -1,7 +1,10 @@
 package com.liviadfsilva.perkrandomiser.Perk.controller;
 
+import com.liviadfsilva.perkrandomiser.Perk.dto.PerkRequest;
 import com.liviadfsilva.perkrandomiser.Perk.model.Perk;
 import com.liviadfsilva.perkrandomiser.Perk.service.PerkService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,13 +30,14 @@ public class PerkController {
     }
 
     @PostMapping
-    public Perk createPerk(@RequestBody Perk perk) {
-        return service.createTask(perk);
+    public ResponseEntity<Perk> createPerk(@RequestBody PerkRequest request) {
+        Perk perk = service.createPerk(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(perk);
     }
 
-    @PutMapping("/{id}")
-    public Perk updatePerk(@PathVariable Long id, @RequestBody Perk perk) {
-        return service.updatePerk(id, perk);
+    @PatchMapping("/{id}")
+    public Perk updatePerk(@PathVariable Long id, @RequestBody PerkRequest request) {
+        return service.updatePerk(id, request);
     }
 
     @DeleteMapping("/{id}")
