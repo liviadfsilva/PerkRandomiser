@@ -1,6 +1,8 @@
 package com.liviadfsilva.perkrandomiser.Perk.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.liviadfsilva.perkrandomiser.Category.model.Category;
+import com.liviadfsilva.perkrandomiser.User.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,4 +38,9 @@ public class Perk {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> categories = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "perks")
+    private Set<User> users = new HashSet<>();
+
 }

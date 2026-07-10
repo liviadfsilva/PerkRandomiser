@@ -32,11 +32,9 @@ public class UserController {
 
     // #TO-DO: add email
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> registerUser(@RequestBody UserRequest dto) {
-        User user = service.registerUser(dto.getUsername(), dto.getPassword());
-
-        UserResponse response = new UserResponse(user.getUsername());
-        return ResponseEntity.ok(response);
+    public ResponseEntity<UserResponse> registerUser(@RequestBody UserRequest request) {
+        User user = service.registerUser(request);
+        return ResponseEntity.ok(UserResponse.from(user));
     }
 
     // #TO-DO: add email
@@ -45,9 +43,7 @@ public class UserController {
             @PathVariable Long id,
             @RequestBody UserRequest dto) {
         User user = service.updateUser(id, dto);
-
-        UserResponse response = new UserResponse(user.getUsername());
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(UserResponse.from(user));
     }
 
     @DeleteMapping("/{id}")
